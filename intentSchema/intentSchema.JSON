@@ -1,0 +1,25 @@
+{
+    "intents": [
+      {
+        "intent": "didNotUnderstand"
+      },
+      {
+        "intent": "checkOpen"
+      },
+      {
+        "intent": "AMAZON.PauseIntent"
+      },
+      {
+        "intent": "AMAZON.ResumeIntent"
+      },
+      {
+        "intent": "AMAZON.HelpIntent"
+      },
+      {
+        "intent": "AMAZON.StopIntent"
+      },
+      {
+        "intent": "AMAZON.CancelIntent"
+      }
+    ]
+  }
