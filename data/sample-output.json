@@ -1,0 +1,18 @@
+{
+    "Holloway Commons": {
+        "Monday": "7:15am - 9:00pm",
+        "Tuesday": "7:15am - 9:00pm",
+        "Wednesday": "7:15am - 9:00pm"
+    }
+}
+
+/*
+So here is the JSON structure for this
+
+{
+    "Location": {
+        "Day": "Time"
+        "Day": "Closed"
+    }
+}
+/*
