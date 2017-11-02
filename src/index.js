@@ -1,7 +1,7 @@
 'use strict'
 /* -- alexa skill to check unh foods -- */
-const Alexa = require('alexa-sdk')
-var https = require('https')
+const Alexa = require('alexa-sdk');
+var https = require('https');
 
 exports.handler = (event, context) => {
     try {
@@ -18,7 +18,7 @@ exports.handler = (event, context) => {
                     generateResponse(
                         buildSpeechletResponse('hello', false), {}
                     )
-                )
+                );
                 break;
             case "IntentRequest":
                 // Intent Request
@@ -31,7 +31,7 @@ exports.handler = (event, context) => {
                             generateResponse(
                                 buildSpeechletResponse('hello', false), {}
                             )
-                        )
+                        );
                         break;
 
                     case "AMAZON.StopIntent":
@@ -39,7 +39,7 @@ exports.handler = (event, context) => {
                             generateResponse(
                                 buildSpeechletResponse(`Alright. See you again soon`, true), {}
                             )
-                        )
+                        );
                         break;
 
                     case "AMAZON.CancelIntent":
@@ -47,7 +47,7 @@ exports.handler = (event, context) => {
                             generateResponse(
                                 buildSpeechletResponse(`Alright. See you again soon`, true), {}
                             )
-                        )
+                        );
                         break;
 
                     case "AMAZON.PauseIntent":
@@ -55,7 +55,7 @@ exports.handler = (event, context) => {
                             generateResponse(
                                 buildSpeechletResponse(`Ok. I am waiting.`, false), {}
                             )
-                        )
+                        );
                         break;
 
                     case "AMAZON.ResumeIntent":
@@ -63,28 +63,64 @@ exports.handler = (event, context) => {
                             generateResponse(
                                 buildSpeechletResponse(`How can I help you? `, false), {}
                             )
-                        )
+                        );
                         break;
                         // Custom Intent
                     case "checkOpen":
+                        /*var today = new Date();
+                        var est_offSet = -4;
+                        var hourNow = today.getHours() + est_offSet;
+                        var minuteNow = today.getMinutes();
+                        //const currentTime = moment().format('LT');
+                         const currentTime = parseFloat(hourNow + "." + minuteNow);
+
+                        var checkOpen = function(currentTime) {
+                            if currentTime
+                        }; */
+
+                        var startTime = '7:30 AM';
+                        var endTime   = '9:30 PM';
+                        var now       = new Date();
+                        
+                        var startDate = dateObj(startTime); // get date objects
+                        var endDate   = dateObj(endTime);
+                        
+                        if (startDate > endDate) { // check if start comes before end
+                            var temp  = startDate; // if so, assume it's across midnight
+                            startDate = endDate;   // and swap the dates
+                            endDate   = temp;
+                        }
+                        
+                        var open = now < endDate && now > startDate ? 'open' : 'closed'; // compare
+                        /* console.log('Restaurant is ' + open); */
+                        
+                        function dateObj(d) { // date parser ...
+                            var parts = d.split(/:|\s/),
+                                date  = new Date();
+                            if (parts.pop().toLowerCase() == 'pm') parts[0] = (+parts[0]) + 12;
+                            date.setHours(+parts.shift());
+                            date.setMinutes(+parts.shift());
+                            return date;
+                        }
+
                         context.succeed(
                             generateResponse(
-                                buildSpeechletResponse('Currently Hoco is open, but you would expect shitty foods because they are almost close. You have 15 minutes to avoid starving until morning', true), {}
+                                buildSpeechletResponse(`Hoco is ${open}`, true), {}
                             )
-                        )
+                        );
                         break;
                     default:
-                        throw "Invalid intent"
+                        throw "Invalid intent";
                 }
                 break;
             default:
-                context.fail(`INVALID REQUEST TYPE: ${event.request.type}`)
+                context.fail(`INVALID REQUEST TYPE: ${event.request.type}`);
         }
     } catch (error) {
-        context.fail(`Exception: ${error}`)
+        context.fail(`Exception: ${error}`);
     }
     const alexa = Alexa.handler(event, context);
-}
+};
 
 // Helpers
 var buildSpeechletResponse = (outputText, shouldEndSession) => {
@@ -95,9 +131,9 @@ var buildSpeechletResponse = (outputText, shouldEndSession) => {
             text: outputText
         },
         shouldEndSession: shouldEndSession
-    }
+    };
 
-}
+};
 
 var buildSpeechletResponseSSML = (outputSSML, shouldEndSession) => {
 
@@ -107,9 +143,9 @@ var buildSpeechletResponseSSML = (outputSSML, shouldEndSession) => {
             ssml: outputSSML
         },
         shouldEndSession: shouldEndSession
-    }
+    };
 
-}
+};
 
 var generateResponse = (speechletResponse, sessionAttributes) => {
 
@@ -117,6 +153,6 @@ var generateResponse = (speechletResponse, sessionAttributes) => {
         version: "1.0",
         sessionAttributes: sessionAttributes,
         response: speechletResponse
-    }
+    };
 
-}
+};
