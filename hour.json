@@ -1,0 +1,97 @@
+{
+    "Holloway Commons": {
+        "Monday": {
+            "Open": 7.15,
+            "Close": 21.00
+        },
+        "Tuesday": {
+            "Open": 7.15,
+            "Close": 21.00
+        },
+        "Wednesday": {
+            "Open": 7.15,
+            "Close": 21.00
+        },
+        "Thursday": {
+            "Open": 7.15,
+            "Close": 21.00
+        },
+        "Friday": {
+            "Open": 7.15,
+            "Close": 21.00
+        },
+        "Saturday": {
+            "Open": 8.00, 
+            "Close": 21.00
+        },
+        "Sunday": {
+            "Open": 8.00, 
+            "Close": 21.00
+        }
+    },  
+    "PhilBrook Hall": {
+        "Monday": {
+            "Open": 7.15,
+            "Close": 23.00
+        },
+        "Tuesday": {
+            "Open": 7.15,
+            "Close": 23.00
+        },
+        "Wednesday": {
+            "Open": 7.15,
+            "Close": 23.00
+        },
+        "Thursday": {
+            "Open": 7.15,
+            "Close": 19.30
+        },
+        "Friday": {
+            "Open": 7.15,
+            "Close": 19.30
+        },
+        "Saturday": {
+            "Open": 9.00, 
+            "Close": 19.30
+        },
+        "Sunday": {
+            "Open": 9.00, 
+            "Close": 21.00
+        }
+    },
+    "Stillings Hall": {
+        "Monday": {
+            "Open": 7.15,
+            "Close": 20.00
+        },
+        "Tuesday": {
+            "Open": 7.15,
+            "Close": 20.00
+        },
+        "Wednesday": {
+            "Open": 7.15,
+            "Close": 20.00
+        },
+        "Thursday": {
+            "Open": 7.15,
+            "Close": 20.00
+        },
+        "Friday": {
+            "Open": 7.15,
+            "Close": 20.00
+        },
+        "Sunday": {
+            "Open": 12.00, 
+            "Close": 20.00
+        }
+    }
+}
+    
+
+
+    
+
+
+
+
+
