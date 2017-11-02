@@ -67,47 +67,83 @@ exports.handler = (event, context) => {
                         break;
                         // Custom Intent
                     case "checkOpen":
-                        /*var today = new Date();
-                        var est_offSet = -4;
-                        var hourNow = today.getHours() + est_offSet;
-                        var minuteNow = today.getMinutes();
-                        //const currentTime = moment().format('LT');
-                         const currentTime = parseFloat(hourNow + "." + minuteNow);
+                        // A MESS
 
-                        var checkOpen = function(currentTime) {
-                            if currentTime
-                        }; */
+                        // get today's day
+                        var now = new Date();
+                        var weekday = new Array(7);
+                        weekday[0] = "Sunday";
+                        weekday[1] = "Monday";
+                        weekday[2] = "Tuesday";
+                        weekday[3] = "Wednesday";
+                        weekday[4] = "Thursday";
+                        weekday[5] = "Friday";
+                        weekday[6] = "Saturday";
 
-                        var startTime = '7:30 AM';
-                        var endTime   = '9:30 PM';
-                        var now       = new Date();
+                        var todayIs = weekday[now.getDay()]; // got day => Thursday
+
+                        // get EST current time
+                        function getDateWithUTCOffset(inputTzOffset){
+                            var now = new Date(); // get the current time
                         
-                        var startDate = dateObj(startTime); // get date objects
-                        var endDate   = dateObj(endTime);
+                            var currentTzOffset = -now.getTimezoneOffset() / 60 // in hours, i.e. -4 in NY
+                            var deltaTzOffset = inputTzOffset - currentTzOffset; // timezone diff
                         
-                        if (startDate > endDate) { // check if start comes before end
-                            var temp  = startDate; // if so, assume it's across midnight
-                            startDate = endDate;   // and swap the dates
-                            endDate   = temp;
+                            var nowTimestamp = now.getTime(); // get the number of milliseconds since unix epoch 
+                            var deltaTzOffsetMilli = deltaTzOffset * 1000 * 60 * 60; // convert hours to milliseconds (tzOffsetMilli*1000*60*60)
+                            var outputDate = new Date(nowTimestamp + deltaTzOffsetMilli) // your new Date object with the timezone offset applied.
+                        
+                            return outputDate;
                         }
-                        
-                        var open = now < endDate && now > startDate ? 'open' : 'closed'; // compare
-                        /* console.log('Restaurant is ' + open); */
-                        
-                        function dateObj(d) { // date parser ...
-                            var parts = d.split(/:|\s/),
-                                date  = new Date();
-                            if (parts.pop().toLowerCase() == 'pm') parts[0] = (+parts[0]) + 12;
-                            date.setHours(+parts.shift());
-                            date.setMinutes(+parts.shift());
-                            return date;
-                        }
+                        var myTime = getDateWithUTCOffset(-4);
 
-                        context.succeed(
-                            generateResponse(
-                                buildSpeechletResponse(`Hoco is ${open}`, true), {}
-                            )
-                        );
+
+                        var place = event.request.intent.slots.dining_hall.value; // => hoco
+                        //var place = "philly"
+                        // endpoint stuff
+                        var endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${place}.json`; // hoco joson
+                        // endpoint result
+                        var body = "";
+                        https.get(endpoint, (response) => {
+                            response.on('data', (chunk) => {
+                                body += chunk;
+                            });
+                            response.on('end', () => {
+                                var data = JSON.parse(body);
+                                var startTime = data[place][todayIs].Open;
+                                var endTime = data[place][todayIs].Close;
+
+                                var startDate = dateObj(startTime); // get date objects
+                                var endDate = dateObj(endTime);
+
+                                if (startDate > endDate) { // check if start comes before end
+                                    var temp = startDate; // if so, assume it's across midnight
+                                    startDate = endDate; // and swap the dates
+                                    endDate = temp;
+                                }
+
+                                // LOGIC
+                                var open = myTime < endDate && myTime > startDate ? 'open' : 'closed'; // compare
+                                //console.log('Restaurant is ' + open);
+                                
+                                // =============== //
+                                function dateObj(d) { // date parser ...
+                                    var parts = d.split(/:|\s/),
+                                        date = new Date();
+                                    if (parts.pop().toLowerCase() == 'pm') parts[0] = (+parts[0]) + 12;
+                                    date.setHours(+parts.shift());
+                                    date.setMinutes(+parts.shift());
+                                    return date;
+                                }
+
+                                // alexa output
+                                context.succeed(
+                                    generateResponse(
+                                        buildSpeechletResponse(`${place} is ${open}`, true), {}
+                                    )
+                                );
+                            });
+                        });
                         break;
                     default:
                         throw "Invalid intent";
