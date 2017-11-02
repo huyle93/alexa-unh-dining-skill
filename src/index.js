@@ -98,7 +98,10 @@ exports.handler = (event, context) => {
                         var myTime = getDateWithUTCOffset(-4);
 
 
-                        var place = event.request.intent.slots.dining_hall.value; // => hoco
+                        var rawPlace = event.request.intent.slots.dining_hall.value; // => hoco
+
+                        var place = rawPlace.toLowerCase();
+
                         //var place = "philly"
                         // endpoint stuff
                         var endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${place}.json`; // hoco joson
