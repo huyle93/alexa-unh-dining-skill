@@ -83,16 +83,16 @@ exports.handler = (event, context) => {
                         var todayIs = weekday[now.getDay()]; // got day => Thursday
 
                         // get EST current time
-                        function getDateWithUTCOffset(inputTzOffset){
+                        function getDateWithUTCOffset(inputTzOffset) {
                             var now = new Date(); // get the current time
-                        
+
                             var currentTzOffset = -now.getTimezoneOffset() / 60 // in hours, i.e. -4 in NY
                             var deltaTzOffset = inputTzOffset - currentTzOffset; // timezone diff
-                        
+
                             var nowTimestamp = now.getTime(); // get the number of milliseconds since unix epoch 
                             var deltaTzOffsetMilli = deltaTzOffset * 1000 * 60 * 60; // convert hours to milliseconds (tzOffsetMilli*1000*60*60)
                             var outputDate = new Date(nowTimestamp + deltaTzOffsetMilli) // your new Date object with the timezone offset applied.
-                        
+
                             return outputDate;
                         }
                         var myTime = getDateWithUTCOffset(-4);
@@ -128,7 +128,7 @@ exports.handler = (event, context) => {
                                 // LOGIC
                                 var open = myTime < endDate && myTime > startDate ? 'open' : 'closed'; // compare
                                 //console.log('Restaurant is ' + open);
-                                
+
                                 // =============== //
                                 function dateObj(d) { // date parser ...
                                     var parts = d.split(/:|\s/),
@@ -152,6 +152,12 @@ exports.handler = (event, context) => {
                         throw "Invalid intent";
                 }
                 break;
+
+            case "SessionEndedRequest":
+                // Session Ended Request
+                console.log(`SESSION ENDED REQUEST`);
+                break;
+
             default:
                 context.fail(`INVALID REQUEST TYPE: ${event.request.type}`);
         }
