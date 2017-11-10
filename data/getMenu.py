@@ -13,22 +13,58 @@ Created on Mon Oct  9 16:39:11 2017
 """
 
 from bs4 import BeautifulSoup
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
 import requests
 
 
-url_list = ["http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=80&locationName=Holloway%20Dining%20Hall&naFlag=1", 
-            "http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=10&locationName=Stillings%20Dining%20Hall&naFlag=1", 
-            "http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=30&locationName=Philbrook%20Dining%20Hall&naFlag=1" ]
+url_list = ['http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=80&locationName=Holloway%20Dining%20Hall&naFlag=1',
+            'http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=10&locationName=Stillings%20Dining%20Hall&naFlag=1',
+            'http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=30&locationName=Philbrook%20Dining%20Hall&naFlag=1']
+
 for url in url_list:
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-   
-for record in soup.find_all("div", {"class":"shortmenurecipes"}):
-    print(record)
-    
-    
+    all_text = ''.join(soup.find_all(text=True))
+    table = soup.find("td")
+    list = []
+    for date in table.find_all("span", {"class":"shortmenutitledate"}):
+        list.append(date)
+        for stuff in table.find_all("table", ["id":"Breakfast", "id":"Lunch", "id":"Dinner"]):
+            print(stuff)
+#            for menu in table.find_all("div", {"class":"shortmenuheader"}):
+#                list.append(menu)
+#                for recipes in table.find_all("div", {"class":"shortmenurecipes"}):
+#                    list.append(recipes)
+#                    result = list
+            
+
+    #list.append(menu) 
+    #print(menu.text)
+       
         
+#    for recipes in record:
+#        recipes.find_all("div", {"class":"shortmenurecipes"})
+#        
+#    
+
+            
+            
+            
+    
+    
+    
+    
+#    for table in record.find_all("t"):
+#        for building_name in table.find_all("div", {"class":"shortmenuheader"}):
+#            print(building_name)
+            
+#        for meals in building_name.find_all("div", {"class":"shortmenumeals"}):
+#            for day in meals.find_all("div", {"class":"shortmenucats"}):
+#                for food in day.find_all("div", {"class":"shortmenurecipes"}):
+#                    
+#    
+#    
+#        
        
         
 
@@ -71,45 +107,3 @@ for record in soup.find_all("div", {"class":"shortmenurecipes"}):
         
     
     
-
-
-
-
-    
-
-
-    
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-    
-    
-    
-
-
-    
-
-
-    
-
-
-
-
-
