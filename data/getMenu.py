@@ -14,20 +14,22 @@ Created on Mon Oct  9 16:39:11 2017
 
 from bs4 import BeautifulSoup
 import urllib.request, urllib.error, urllib.parse
-
-def make_soup(url):
-        link = urllib.request.urlopen(url)
-        soupdata = BeautifulSoup(link, "html.parser")
-        return soupdata
-soup = make_soup("http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=80&locationName=Holloway%20Dining%20Hall&naFlag=1")
+import requests
 
 
+url_list = ["http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=80&locationName=Holloway%20Dining%20Hall&naFlag=1", 
+            "http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=10&locationName=Stillings%20Dining%20Hall&naFlag=1", 
+            "http://foodpro.unh.edu/shortmenu.asp?sName=University%20Of%20New%20Hampshire%20Hospitality%20Services&locationNum=30&locationName=Philbrook%20Dining%20Hall&naFlag=1" ]
+for url in url_list:
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
    
-for record in soup.find_all("tr"):
-    #list_of_hours=[]
-    for hour in record.find_all(["th","td"]):
-        day = record.text
-    print(day)
+for record in soup.find_all("div", {"class":"shortmenurecipes"}):
+    print(record)
+    
+    
+        
+       
         
 
 
