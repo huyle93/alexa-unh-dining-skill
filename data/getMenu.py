@@ -32,17 +32,21 @@ for url in url_list:
         for menu in table.find_all("div", {"class":"shortmenuheader"}):
             list.append(menu)
             for recipes in table.find_all("div", {"class":"shortmenurecipes"}):
-                list.append(recipes)
-                print(list)
+
+                
+                
+#---------------------------------------------------------------------------
+                
+#To test print 
+#                list.append(recipes) 
+               # print(list)
 
 
                
                 
             
 
-    #list.append(menu) 
-    #print(menu.text)
-       
+    
         
 #    for recipes in record:
 #        recipes.find_all("div", {"class":"shortmenurecipes"})
@@ -55,27 +59,7 @@ for url in url_list:
     
     
     
-    
-#    for table in record.find_all("t"):
-#        for building_name in table.find_all("div", {"class":"shortmenuheader"}):
-#            print(building_name)
-            
-#        for meals in building_name.find_all("div", {"class":"shortmenumeals"}):
-#            for day in meals.find_all("div", {"class":"shortmenucats"}):
-#                for food in day.find_all("div", {"class":"shortmenurecipes"}):
-#                    
-#    
-#    
-#        
-       
-        
-
-
- #       list_of_hours.append(getdata)
- #   mylist.append(list_of_hours)
-#print(mylist, "\n")
-
-        
+ 
         
     
  
@@ -98,12 +82,7 @@ for url in url_list:
        
        
        
-       
-        #hoursdata =hoursdata+","+data.text
-        
-        #hoursdatasave = hoursdatasave + "\n" + hoursdata[1:]
-
-    
+      
 
     
         
