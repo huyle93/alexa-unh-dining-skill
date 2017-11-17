@@ -32,6 +32,11 @@ for url in url_list:
         for menu in table.find_all("div", {"class":"shortmenuheader"}):
             list.append(menu)
             for recipes in table.find_all("div", {"class":"shortmenurecipes"}):
+                list.append(recipes)
+                for i in list:
+                    text = i.get_text()
+                    print(text)
+                    
 
                 
                 
