@@ -35,9 +35,28 @@ for url in url_list:
                 list.append(recipes)
                 for i in list:
                     text = i.get_text()
-                    print(text)
-                    
+                    final_text = "\n".join(text)
+                    print(final_text)
+#                    with open('parseddata.txt', 'ab') as f:
+#                        f.write(final_text.encode("utf-8"))
+#                        
+                        
+        
+      
+                   
+                 
+                       
+                        
+                   
+                   
 
+
+#=============== OutPut to text file====================
+
+
+
+
+       
                 
                 
 #---------------------------------------------------------------------------
