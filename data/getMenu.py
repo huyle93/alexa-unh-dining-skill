@@ -32,28 +32,14 @@ for url in url_list:
         for menu in table.find_all("div", {"class":"shortmenuheader"}):
             list.append(menu)
             for recipes in table.find_all("div", {"class":"shortmenurecipes"}):
-
-                
-                
-#---------------------------------------------------------------------------
-                
-#To test print 
-#                list.append(recipes) 
-               # print(list)
-
-
-               
-                
-            
-
-    
-        
-#    for recipes in record:
-#        recipes.find_all("div", {"class":"shortmenurecipes"})
-#        
-#    
-
-            
+                list.append(recipes)
+                for i in list:
+                    text = i.get_text()
+                    final_text = "\n".join(text)
+                    print(final_text)
+#                    with open('parseddata.txt', 'ab') as f:
+#                        f.write(final_text.encode("utf-8"))
+#                             
             
             
     
