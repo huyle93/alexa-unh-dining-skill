@@ -39,45 +39,7 @@ for url in url_list:
                     print(final_text)
 #                    with open('parseddata.txt', 'ab') as f:
 #                        f.write(final_text.encode("utf-8"))
-#                        
-                        
-        
-      
-                   
-                 
-                       
-                        
-                   
-                   
-
-
-#=============== OutPut to text file====================
-
-
-
-
-       
-                
-                
-#---------------------------------------------------------------------------
-                
-#To test print 
-#                list.append(recipes) 
-               # print(list)
-
-
-               
-                
-            
-
-    
-        
-#    for recipes in record:
-#        recipes.find_all("div", {"class":"shortmenurecipes"})
-#        
-#    
-
-            
+#                             
             
             
     
