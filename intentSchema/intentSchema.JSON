@@ -3,14 +3,12 @@
             "intent": "didNotUnderstand"
         },
         {
-            "slots": [
-              {
-                "name": "dinning_hall",
+            "intent": "checkOpen",
+            "slots": [{
+                "name": "dining_hall",
                 "type": "places"
-              }
-            ],
-            "intent": "checkOpen"
-          },
+            }]
+        },
         {
             "intent": "AMAZON.PauseIntent"
         },
