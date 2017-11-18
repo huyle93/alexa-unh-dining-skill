@@ -1,22 +1,9 @@
 {
-    "location":{
-        "date":{
-            "Time":{
-                "Breakfast, lunch or dinner":{
-                    "Station":{
-                        "List of food":{
-                            
-                        }
-
-                    }
-
-
-            }
-
-
-
-        }
-
+    "Philly":
+    {
+        "Breakfast":
+        ["scramble","scrambled eggs","milk","dog", "shrimp scampi"],
+        "Lunch":
+        ["bread","egg","milk","dog"]
     }
-
 }

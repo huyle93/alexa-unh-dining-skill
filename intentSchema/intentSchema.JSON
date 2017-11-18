@@ -10,6 +10,16 @@
             }]
         },
         {
+            "intent": "checkFood",
+            "slots": [{
+                "name": "dining_hall",
+                "type": "places"
+            },{
+                "name": "foodname",
+                "type": "foodtype"
+            }]
+        },
+        {
             "intent": "AMAZON.PauseIntent"
         },
         {
