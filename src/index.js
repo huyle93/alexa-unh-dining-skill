@@ -186,7 +186,7 @@ exports.handler = (event, context) => {
                                 // alexa output
                                 context.succeed(
                                     generateResponse(
-                                        buildSpeechletResponse(`${speechPlace} is currently ${open}, my time is ${myTime}, close time is ${endDate}`, true), {}
+                                        buildSpeechletResponse(`${speechPlace} is currently ${open}`, true), {}
                                     )
                                 );
                             });
@@ -269,7 +269,7 @@ function dateObj(d) {
     if (parts === null) {
         return "Not a valid date: " + d;
     }
-    var date = new Date();
+    var date = getDateWithUTCOffset(-5);
     if (parts.pop().toLowerCase() == 'pm') {
         parts[1] = (+parts[1]) + 12;
     }
