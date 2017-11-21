@@ -11,21 +11,6 @@ none semicolons needed
 const Alexa = require('alexa-sdk');
 var https = require('https');
 
-// ======================== Custom functions ======================= //
-
-var getDateWithUTCOffset = function (inputTzOffset) {
-    var now = new Date(); // get the current time
-
-    var currentTzOffset = -now.getTimezoneOffset() / 60 // in hours, i.e. -4 in NY
-    var deltaTzOffset = inputTzOffset - currentTzOffset; // timezone diff
-
-    var nowTimestamp = now.getTime(); // get the number of milliseconds since unix epoch 
-    var deltaTzOffsetMilli = deltaTzOffset * 1000 * 60 * 60; // convert hours to milliseconds (tzOffsetMilli*1000*60*60)
-    var outputDate = new Date(nowTimestamp + deltaTzOffsetMilli) // your new Date object with the timezone offset applied.
-
-    return outputDate;
-}
-
 // ======================== Export Handler ======================= //
 
 exports.handler = (event, context) => {
@@ -41,7 +26,7 @@ exports.handler = (event, context) => {
                 console.log(`LAUNCH REQUEST`)
                 context.succeed(
                     generateResponse(
-                        buildSpeechletResponse('hello', false), {}
+                        buildSpeechletResponse('Welcome to UNH Food Hunter, how can I help you? You can ask for a specific dining hall, or, a specific food.', false), {}
                     )
                 );
                 break;
@@ -54,7 +39,7 @@ exports.handler = (event, context) => {
                     case "AMAZON.HelpIntent":
                         context.succeed(
                             generateResponse(
-                                buildSpeechletResponse('hello', false), {}
+                                buildSpeechletResponse('How can I help you? You can ask for a specific dining hall, or, a specific food. ', false), {}
                             )
                         );
                         break;
@@ -101,39 +86,64 @@ exports.handler = (event, context) => {
                         break;
                     case "checkFood":
                         var s3_menu_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/menu_structure.json`
-                        var foodname_slot = event.request.intent.slots.foodname.value; // => milk
-                        var menu_body = "";
-                        https.get(s3_menu_endpoint, (response) => {
-                            response.on('data', (chunk) => {
-                                menu_body += chunk;
-                            });
-                            response.on('end', () => {
-                                var data = JSON.parse(menu_body);
-                                var foodname_endpoint = data.Philly.Breakfast;
-                                if (foodname_endpoint.indexOf(foodname_slot) >= 0) {
-                                    context.succeed(
-                                        generateResponse(
-                                            buildSpeechletResponse(`There is ${foodname_slot} today`, true), {}
+                        var foodname_slot = event.request.intent.slots.Food.value;
+                        if (foodname_slot) {
+                            var menu_body = "";
+                            https.get(s3_menu_endpoint, (response) => {
+                                response.on('data', (chunk) => {
+                                    menu_body += chunk;
+                                });
+                                response.on('end', () => {
+                                    var data = JSON.parse(menu_body);
+                                    var foodname_endpoint = data.Philly.Breakfast;
+                                    if (foodname_endpoint.indexOf(foodname_slot) >= 0) {
+                                        context.succeed(
+                                            generateResponse(
+                                                buildSpeechletResponse(`There is ${foodname_slot} today`, true), {}
+                                            )
                                         )
-                                    )
-                                } else {
-                                    context.succeed(
-                                        generateResponse(
-                                            buildSpeechletResponse(`Sorry. There is no ${foodname_slot} today`, true), {}
+                                    } else {
+                                        context.succeed(
+                                            generateResponse(
+                                                buildSpeechletResponse(`Sorry. There is no ${foodname_slot} today`, true), {}
+                                            )
                                         )
-                                    )
-                                }
+                                    }
+                                })
                             })
-                        })
-
-                        // comparing endpoint and slot
-
+                        } else {
+                            context.succeed(
+                                generateResponse(
+                                    buildSpeechletResponse(`Sorry. I could not hear the food name clear, please say it again, or, say bye to exit`, false), {}
+                                )
+                            )
+                        }
 
                         break;
                     case "checkOpen":
                         // ====== get dining hall ====== //
                         var rawPlace = event.request.intent.slots.dining_hall.value;
-                        var place = rawPlace.toLowerCase();
+                        var place = rawPlace.toLowerCase()
+                        var place_pool = {
+                            "holloway": ["holloway", "holloway commons", "hoco"],
+                            "philbrook": ["philbrook", "philly"],
+                            "stillings": ["stilings", "stilling"]
+                        }
+                        // filter
+                        var speechPlace;
+                        var operation_time;
+                        if (place_pool.holloway.indexOf(place) >=0) {
+                            speechPlace = "holloway common dining hall"
+                            operation_time = "hoco"
+                        } 
+                        if (place_pool.philbrook.indexOf(place) >=0) {
+                            speechPlace = "philbrook dining hall"
+                            operation_time = "philly"
+                        }
+                        if (place_pool.stillings.indexOf(place) >=0 ) {
+                            speechPlace = "stillings dining hall"
+                            operation_time = "stillings"
+                        }
                         // ====== get today day ====== //
                         var now = new Date();
                         var weekday = new Array(7);
@@ -151,16 +161,16 @@ exports.handler = (event, context) => {
                         // ****** endpoint services ****** //
                         // ====== get data from REST API AWS S3 ====== //
                         var body = "";
-                        var s3_dininghall_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${place}.json`;
-                        https.get(s3_dininghall_endpoint, (response) => {
+                        var s3_speechPlace_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${operation_time}.json`;
+                        https.get(s3_speechPlace_endpoint, (response) => {
                             response.on('data', (chunk) => {
                                 body += chunk;
                             });
                             response.on('end', () => {
                                 var data = JSON.parse(body);
                                 // ====== accessing JSON key ====== //
-                                var startTime = data[place][todayIs].Open;
-                                var endTime = data[place][todayIs].Close;
+                                var startTime = data[operation_time][todayIs].Open;
+                                var endTime = data[operation_time][todayIs].Close;
                                 // ====== convert RAW JSON value to date Obj ====== //
                                 var startDate = dateObj(startTime);
                                 var endDate = dateObj(endTime);
@@ -172,27 +182,11 @@ exports.handler = (event, context) => {
                                 }
                                 // ====== logic comparing return str ====== //
                                 var open = myTime < endDate && myTime > startDate ? 'open' : 'closed';
-                                // ====== function converts raw str date to JS Date Obj ====== //
-                                function dateObj(d) {
-                                    const rx = /(\d{1,2})\:(\d{1,2})\s*(AM|PM)/g
-                                    // Make sure JSON is in uppercase format like 7:00 AM
-                                    const parts = rx.exec(d)
-                                    if (parts === null) {
-                                        return "Not a valid date: " + d;
-                                    }
-                                    var date = new Date();
-                                    if (parts.pop().toLowerCase() == 'pm') {
-                                        parts[1] = (+parts[1]) + 12;
-                                    }
-                                    date.setHours(parts[1]);
-                                    date.setMinutes(parts[2]);
-                                    return date
-                                }
 
                                 // alexa output
                                 context.succeed(
                                     generateResponse(
-                                        buildSpeechletResponse(`${place} is ${open}`, true), {}
+                                        buildSpeechletResponse(`${speechPlace} is currently ${open}, my time is ${myTime}, close time is ${endDate}`, true), {}
                                     )
                                 );
                             });
@@ -251,3 +245,35 @@ var generateResponse = (speechletResponse, sessionAttributes) => {
     };
 
 };
+
+// ======================== Custom functions ======================= //
+// function to get current EST time from UTC
+var getDateWithUTCOffset = function (inputTzOffset) {
+    var now = new Date(); // get the current time
+
+    var currentTzOffset = -now.getTimezoneOffset() / 60 // in hours, i.e. -4 in NY
+    var deltaTzOffset = inputTzOffset - currentTzOffset; // timezone diff
+
+    var nowTimestamp = now.getTime(); // get the number of milliseconds since unix epoch 
+    var deltaTzOffsetMilli = deltaTzOffset * 1000 * 60 * 60; // convert hours to milliseconds (tzOffsetMilli*1000*60*60)
+    var outputDate = new Date(nowTimestamp + deltaTzOffsetMilli) // your new Date object with the timezone offset applied.
+
+    return outputDate;
+}
+
+// function converts raw str date to JS Date Obj
+function dateObj(d) {
+    const rx = /(\d{1,2})\:(\d{1,2})\s*(AM|PM)/g
+    // Make sure JSON is in uppercase format like 7:00 AM
+    const parts = rx.exec(d)
+    if (parts === null) {
+        return "Not a valid date: " + d;
+    }
+    var date = new Date();
+    if (parts.pop().toLowerCase() == 'pm') {
+        parts[1] = (+parts[1]) + 12;
+    }
+    date.setHours(parts[1]);
+    date.setMinutes(parts[2]);
+    return date;
+}

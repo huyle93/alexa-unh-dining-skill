@@ -15,8 +15,8 @@
                 "name": "dining_hall",
                 "type": "places"
             },{
-                "name": "foodname",
-                "type": "foodtype"
+                "name": "Food",
+                "type": "AMAZON.Food"
             }]
         },
         {
