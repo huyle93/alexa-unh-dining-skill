@@ -33,7 +33,7 @@ current_day = str(now.day)
 current_month = str(now.month)
 current_year = str(now.year)
 
-url = 'http://foodpro.unh.edu/shortmenu.asp?sName=University+Of+New+Hampshire+Hospitality+Services&locationNum='+dining_hall["Stillings"]+'&locationName=Holloway+Dining+Hall&naFlag=1&WeeksMenus=This+Week%27s+Menus&myaction=read&dtdate='+current_month+'%2F'+current_day+'%2F'+current_year
+url = 'http://foodpro.unh.edu/shortmenu.asp?sName=University+Of+New+Hampshire+Hospitality+Services&locationNum='+dining_hall["Holloway"]+'&locationName=Holloway+Dining+Hall&naFlag=1&WeeksMenus=This+Week%27s+Menus&myaction=read&dtdate='+current_month+'%2F'+current_day+'%2F'+current_year
 
 # =================== Retrieval Data =========================
 
@@ -45,19 +45,34 @@ table = soup.find("td")
 title_list = []
 menu_list = []
 recipes_list = []
+meal_list = []
+cat_list = []
+    
+    
 for date in table.find_all("span", {"class":"shortmenutitledate"}):
     title_list.append(date.get_text())
-    #print(date.text)
+#    print(date.text)
     for menu in table.find_all("div", {"class":"shortmenuheader"}):
         menu_list.append(menu.get_text())
-        #print(menu.text)
+#        print(menu.text)
         for recipes in table.find_all("div", {"class":"shortmenurecipes"}):
             recipes_list.append(recipes.get_text())
             #print(recipes.text)
+            for meal in table.find_all("div", {"class":"shortmenumeals"}):
+                meal_list.append(meal.get_text())
+#                print(meal.text)
+                for cat in table.find_all("div", {"class":"shortmenucats"}):
+                    cat_list.append(cat.get_text())
+                    #print(cat.text)
+                
+
             
          
-dictionary = {"Date" : title_list, "Location" : menu_list, "Food" : recipes_list}
-print(dictionary)
+dictionary = {"Date" : title_list, "Location" : menu_list,
+              "Food" : recipes_list} 
+for d, l in dictionary.items():
+    print(d, l)
+#print(dictionary)
 #pprint.pprint(dictionary, width=1)
 
 
@@ -75,7 +90,7 @@ print(dictionary)
 
 
 # =================== Dump JSON =========================
-with open('Stilling.json', 'w') as f:
+with open('Holloway.json', 'w') as f:
      json.dump(dictionary, f)
     
 
