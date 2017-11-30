@@ -1,0 +1,10 @@
+{
+    "Breakfast":
+     ["Assorted Danish", "Assorted Muffins", "French Toast Sticks", "Hard Cooked Eggs", "Holloway Omelet Bar", "Hot Oatmeal", "Lyonnaise Potatoes", "Peach Coffee Cake", "Scrambled Eggs", "Spinach & Cheese Scramble", "Steak & Egg Quesadilla", "Steel Cut Oatmeal", "Waffle Bar"],
+     "Lunch":
+     ["Angus Chili with Beans", "Chicken Noodle Soup", "Corn & Lobster Chowder", "Vegan Split Pea Soup", "Holloway Salad Bar", "Yogurt Bar", "Deli Bar", "Olive and Pimento Crm Chz", "Sandwich Pepperoni", "Cheeseburger (no roll)", "Fryless Shoestring Fries", "Grilled Beef Frankfurter", "Hamburger (no roll)", "Hawaiian Salmon Slider", "House-made Veggie Burger", "Oven Fried Chicken", "Teriyaki Chicken", "Turkey Burger (no roll)", "BBQ Chicken Pizza", "Cheese Pizza", "Cheesy Bread", "Veggie Pizza", "Caesar Salad", "Chicken Scampi Bar", "Garlic Bread", "Chocolate Macaroon Bar", "Double Choc Cookie", "Oatmeal Raisin Cookie", "Plain Brownies", "Korean Sesame Broccoli", "Quinoa Pilaf with Peppers", "Roasted Vegetable Soup", "Sweet Potato Bean Burrito", "Chicken Peppercorn Melt", "Chix Mush Marsala Sauce", "House-made Alfredo Sauce", "Korean Sesame Broccoli", "Marinara Sauce", "Mediterranean Farro", "Pasta Shells", "Seasoned Baby Carrots", "Stuffed Shells", "Whole Wheat Pasta"],
+     "Dinner":
+     ["Angus Chili with Beans", "Chicken Noodle Soup", "Corn & Lobster Chowder", "Vegan Split Pea Soup", "Holloway Salad Bar", "Yogurt Bar", "Fusion Spring Roll Bar", "Grilled Chicken Thigh", "Mexican Fiesta Rice", "Whole Kernel Corn", "BBQ Chicken Pizza", "Cheese Pizza", "Cheesy Bread", "Veggie Pizza", "Caesar Salad", "Chicken Scampi Bar", "Garlic Bread", "Brownie Pudding", "Red Velvet Cake", "Italian Farro", "Roasted Root Vegetables", "Roasted Vegetable Soup", "Vegan Spanikopita", "Baked Cod", "Cheese Lasagna", "Chix Mush Marsala Sauce", "House-made Alfredo Sauce", "Korean Sesame Broccoli", "Marinara Sauce", "Pasta Shells", "Rice Pilaf House-made", "Seasoned Baby Carrots", "Smothered Pork Chops", "Whole Wheat Pasta"]
+
+
+}
