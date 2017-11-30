@@ -1,0 +1,10 @@
+{
+    "Breakfast":
+     ["Assorted Danish", "Assorted Muffins", "Breakfast Sausage Patty", "Broccoli & Cheese Egg Whites", "O'Brien Potatoes", "Oatmeal Bar", "Pumpkin Overnight Oatmeal", "Scrambled Eggs", "Texas French Toast", "Waffle Bar", "Yogurt Bar", "Omelet Bar"],
+     "Lunch":
+     [ "Chef's Choice Soup", "Hot & Sour Soup", "Italian Sausage Soup", "Quinoa & Sweet Potato Soup", "Salmon-Dill Chowder", "Stillings Salad Bar", "Yogurt Bar", "Deli Bar", "Thanksgiving Turkey Sub", "Cheeseburger (no roll)", "Fryless Shoestring Fries", "Salmon Slider Burger", "Stuffed Potato Bar", "Tempura Chicken Bites", "Teriyaki Chicken", "Buffalo Chicken Pizza", "Cheese Pizza", "Cheesy Bread", "Shrimp Scampi Pizza", "House-made Alfredo Sauce", "Marinara Sauce", "Penne Rigate", "Pomodoro Sauce", "Whole Wheat Pasta", "Baked Sweet Potato", "Bean & Barley Soup", "Chef's Choice Vegan Entree", "Chef's Choice Vegetables", "Herbed Couscous", "House-made Bean Burger", "Spring Roll Bar", "Chocolate Chip Cookies", "Chocolate Macaroon Bar", "Plain Brownies", "Snickerdoodle Cookie", "Vegan Gingersnap Cookie", "Chipotle Quinoa Salad", "Cuban Sandwich", "Fried Rice", "Herb Basted Chicken", "Mashed Cauliflower", "Portabella Orzo Saute", "Sugar Snap Peas"],
+     "Dinner":
+     ["Chef's Choice Soup", "Hot & Sour Soup", "Italian Sausage Soup", "Quinoa & Sweet Potato Soup", "Salmon-Dill Chowder", "Stillings Salad Bar", "Yogurt Bar", "Deli Bar", "Thanksgiving Turkey Sub", "Fish Taco", "Buffalo Chicken Pizza", "Cheese Pizza", "Cheesy Bread", "Shrimp Scampi Pizza", "House-made Alfredo Sauce", "Marinara Sauce", "Penne Rigate", "Pomodoro Sauce", "Whole Wheat Pasta", "Baked Sweet Potato", "Bean & Barley Soup", "Chef's Choice Vegan Entree", "Chef's Choice Vegetables", "Harvest Brown Rice & Walnuts", "Pasta with Butternut Squash", "Spring Roll Bar", "Cheesecake", "Red Velvet Cake - CP Recipe", "Cornbread", "Roasted Sweet Potatoes", "Rotisserie Jerked Chicken", "Steamed Green Beans", "Chicken Carbonara", "Italian Rice", "Mashed Cauliflower", "Pesto Tortellini", "Seafood Stuffed Salmon", "Sugar Snap Peas"]
+
+
+}
