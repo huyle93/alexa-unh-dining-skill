@@ -7,6 +7,11 @@ ES6
 none semicolons needed
 */
 
+/*
+debug
+https://alexa.amazon.com/spa/index.html#cards
+*/
+
 // ======================== Require from Alexa npm ======================= //
 const Alexa = require('alexa-sdk');
 var https = require('https');
@@ -99,7 +104,7 @@ exports.handler = (event, context) => {
                                     if (foodname_endpoint.indexOf(foodname_slot) >= 0) {
                                         context.succeed(
                                             generateResponse(
-                                                buildSpeechletResponse(`There is ${foodname_slot} today`, true), {}
+                                                buildSpeechletResponse(`There is ${foodname_slot} today in Holloway Commons`, true), {}
                                             )
                                         )
                                     } else {
@@ -125,7 +130,7 @@ exports.handler = (event, context) => {
                         var rawPlace = event.request.intent.slots.dining_hall.value;
                         var place = rawPlace.toLowerCase()
                         var place_pool = {
-                            "holloway": ["holloway", "holloway commons", "hoco"],
+                            "holloway": ["holloway", "holloway commons", "hoco", "holloway common"],
                             "philbrook": ["philbrook", "philly"],
                             "stillings": ["stilings", "stilling"]
                         }
