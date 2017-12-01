@@ -90,7 +90,9 @@ exports.handler = (event, context) => {
                         );
                         break;
                     case "checkFood":
-                        var s3_menu_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/menu_structure.json`
+                        var s3_menu_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/api-request/30-11-2017-menu.json`
+                        var dining_hall_hasFood;
+                        
                         var foodname_slot = event.request.intent.slots.Food.value;
                         if (foodname_slot) {
                             var menu_body = "";
@@ -104,7 +106,7 @@ exports.handler = (event, context) => {
                                     if (foodname_endpoint.indexOf(foodname_slot) >= 0) {
                                         context.succeed(
                                             generateResponse(
-                                                buildSpeechletResponse(`There is ${foodname_slot} today in Holloway Commons`, true), {}
+                                                buildSpeechletResponse(`There is ${foodname_slot} today in ${dining_hall_hasFood}`, true), {}
                                             )
                                         )
                                     } else {
