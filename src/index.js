@@ -39,7 +39,7 @@ exports.handler = (event, context) => {
                     case "AMAZON.HelpIntent":
                         context.succeed(
                             generateResponse(
-                                buildSpeechletResponse('How can I help you? You can ask for a specific dining hall, or, a specific food. ', false), {}
+                                buildSpeechletResponse('How can I help you? You can ask for a specific dining hall opening, or, a specific food. ', false), {}
                             )
                         );
                         break;
@@ -123,27 +123,9 @@ exports.handler = (event, context) => {
                     case "checkOpen":
                         // ====== get dining hall ====== //
                         var rawPlace = event.request.intent.slots.dining_hall.value;
-                        var place = rawPlace.toLowerCase()
-                        var place_pool = {
-                            "holloway": ["holloway", "holloway commons", "hoco"],
-                            "philbrook": ["philbrook", "philly"],
-                            "stillings": ["stilings", "stilling"]
-                        }
-                        // filter
-                        var speechPlace;
-                        var operation_time;
-                        if (place_pool.holloway.indexOf(place) >=0) {
-                            speechPlace = "holloway common dining hall"
-                            operation_time = "hoco"
-                        } 
-                        if (place_pool.philbrook.indexOf(place) >=0) {
-                            speechPlace = "philbrook dining hall"
-                            operation_time = "philly"
-                        }
-                        if (place_pool.stillings.indexOf(place) >=0 ) {
-                            speechPlace = "stillings dining hall"
-                            operation_time = "stillings"
-                        }
+                        var speechPlace = getDiningHall_fromUser(rawPlace)[0];
+                        var operation_time = getDiningHall_fromUser(rawPlace)[1];
+                        
                         // ====== get today day ====== //
                         var now = new Date();
                         var weekday = new Array(7);
@@ -192,6 +174,12 @@ exports.handler = (event, context) => {
                             });
                         });
                         break;
+                    /* case "checkTime":
+                        // ====== get dining hall ====== //
+                        // get endpoint
+                        // no logic needed
+                        // tell the users open and close time for a specific dining hall
+                        break; */
                     default:
                         throw "Invalid intent";
                 }
@@ -276,4 +264,30 @@ function dateObj(d) {
     date.setHours(parts[1]);
     date.setMinutes(parts[2]);
     return date;
+}
+// function to get dining hall from user input and return correct dining hall
+function getDiningHall_fromUser(value) {
+    // ====== get dining hall ====== //
+    var place = value.toLowerCase();
+    var place_pool = {
+        "holloway": ["holloway", "holloway commons", "hoco"],
+        "philbrook": ["philbrook", "philly"],
+        "stillings": ["stilings", "stilling"]
+    };
+    // filter
+    var speechPlace;
+    var operation_time;
+    if (place_pool.holloway.indexOf(place) >=0) {
+        speechPlace = "holloway common dining hall"
+        operation_time = "hoco"
+    } 
+    if (place_pool.philbrook.indexOf(place) >=0) {
+        speechPlace = "philbrook dining hall"
+        operation_time = "philly"
+    }
+    if (place_pool.stillings.indexOf(place) >=0 ) {
+        speechPlace = "stillings dining hall"
+        operation_time = "stillings"
+    }
+    return [speechPlace, operation_time]
 }
