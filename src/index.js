@@ -121,78 +121,102 @@ exports.handler = (event, context) => {
 
                         break;
                     case "checkOpen":
+                        // confirmation //
+                        var confirmationArray = ["hoco", "holloway", "holloway common", "philly", "philbrook", "stillings"]
                         // ====== get dining hall ====== //
                         var rawPlace_checkOpen = event.request.intent.slots.dining_hall.value;
-                        var speechPlace = getDiningHall_fromUser(rawPlace_checkOpen)[0];
-                        var strLocation_checkOpen = getDiningHall_fromUser(rawPlace_checkOpen)[1];
-                        // ====== get today day ====== //
-                        var todayIs = getCurrentDay()
-                        // ====== get current EST time ====== //
-                        var myTime = getDateWithUTCOffset(-5);
-                        //////////////////////////////////////
-                        // ****** endpoint services ****** //
-                        // ====== get data from REST API AWS S3 ====== //
-                        var body = "";
-                        var s3_speechPlace_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${strLocation_checkOpen}.json`;
-                        https.get(s3_speechPlace_endpoint, (response) => {
-                            response.on('data', (chunk) => {
-                                body += chunk;
-                            });
-                            response.on('end', () => {
-                                var data = JSON.parse(body);
-                                // ====== accessing JSON key ====== //
-                                var startTime = data[strLocation_checkOpen][todayIs].Open;
-                                var endTime = data[strLocation_checkOpen][todayIs].Close;
-                                // ====== convert RAW JSON value to date Obj ====== //
-                                var startDate = dateObj(startTime);
-                                var endDate = dateObj(endTime);
-                                // ====== validate startDate and endDate ====== //
-                                if (startDate > endDate) { // check if start comes before end
-                                    var temp = startDate; // if so, assume it's across midnight
-                                    startDate = endDate; // and swap the dates
-                                    endDate = temp;
-                                }
-                                // ====== logic comparing return str ====== //
-                                var open = myTime < endDate && myTime > startDate ? 'open' : 'closed';
 
-                                // alexa output
-                                context.succeed(
-                                    generateResponse(
-                                        buildSpeechletResponse(`${speechPlace} is currently ${open}`, true), {}
-                                    )
-                                );
+                        if (confirmationArray.indexOf(rawPlace_checkOpen.toLowerCase()) >= 0) {
+                            var speechPlace = getDiningHall_fromUser(rawPlace_checkOpen)[0];
+                            var strLocation_checkOpen = getDiningHall_fromUser(rawPlace_checkOpen)[1];
+                            // ====== get today day ====== //
+                            var todayIs = getCurrentDay()
+                            // ====== get current EST time ====== //
+                            var myTime = getDateWithUTCOffset(-5);
+                            //////////////////////////////////////
+                            // ****** endpoint services ****** //
+                            // ====== get data from REST API AWS S3 ====== //
+                            var body = "";
+                            var s3_speechPlace_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${strLocation_checkOpen}.json`;
+                            https.get(s3_speechPlace_endpoint, (response) => {
+                                response.on('data', (chunk) => {
+                                    body += chunk;
+                                });
+                                response.on('end', () => {
+                                    var data = JSON.parse(body);
+                                    // ====== accessing JSON key ====== //
+                                    var startTime = data[strLocation_checkOpen][todayIs].Open;
+                                    var endTime = data[strLocation_checkOpen][todayIs].Close;
+                                    // ====== convert RAW JSON value to date Obj ====== //
+                                    var startDate = dateObj(startTime);
+                                    var endDate = dateObj(endTime);
+                                    // ====== validate startDate and endDate ====== //
+                                    if (startDate > endDate) { // check if start comes before end
+                                        var temp = startDate; // if so, assume it's across midnight
+                                        startDate = endDate; // and swap the dates
+                                        endDate = temp;
+                                    }
+                                    // ====== logic comparing return str ====== //
+                                    var open = myTime < endDate && myTime > startDate ? 'open' : 'closed';
+
+                                    // alexa output
+                                    context.succeed(
+                                        generateResponse(
+                                            buildSpeechletResponse(`${speechPlace} is currently ${open}`, true), {}
+                                        )
+                                    );
+                                });
                             });
-                        });
+                        } else {
+                            // alexa output
+                            context.succeed(
+                                generateResponse(
+                                    buildSpeechletResponse(`The location is invalid, please say it again`, false), {}
+                                )
+                            );
+                        }
+
                         break;
                     case "checkTime":
+                        // confirmation //
+                        var confirmationArray_2 = ["hoco", "holloway", "holloway common", "philly", "philbrook", "stillings"]
                         // ====== get dining hall ====== //
                         var rawPlace_checkTime = event.request.intent.slots.dining_hall.value;
-                        var strLocation_checkTime = getDiningHall_fromUser(rawPlace_checkTime)[1];
 
-                        //////////////////////////////////////
-                        // ****** endpoint services ****** //
-                        // ====== get data from REST API AWS S3 ====== //
-                        var body_2 = "";
-                        var s3_operationTime_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${strLocation_checkTime}.json`;
-                        https.get(s3_operationTime_endpoint, (response) => {
-                            response.on('data', (chunk) => {
-                                body_2 += chunk;
+                        if (confirmationArray_2.indexOf(rawPlace_checkTime.toLowerCase()) >= 0) {
+                            //////////////////////////////////////
+                            var strLocation_checkTime = getDiningHall_fromUser(rawPlace_checkTime)[1];
+                            // ****** endpoint services ****** //
+                            // ====== get data from REST API AWS S3 ====== //
+                            var body_2 = "";
+                            var s3_operationTime_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${strLocation_checkTime}.json`;
+                            https.get(s3_operationTime_endpoint, (response) => {
+                                response.on('data', (chunk) => {
+                                    body_2 += chunk;
+                                });
+                                response.on('end', () => {
+                                    var data = JSON.parse(body_2);
+                                    // ====== get today day ====== //
+                                    var todayIs = getCurrentDay()
+                                    // ====== accessing JSON key ====== //
+                                    var startTime = data[strLocation_checkTime][todayIs].Open;
+                                    var endTime = data[strLocation_checkTime][todayIs].Close;
+                                    // alexa output
+                                    context.succeed(
+                                        generateResponse(
+                                            buildSpeechletResponse(`${strLocation_checkTime} is open at ${startTime} and close at ${endTime} today`, true), {}
+                                        )
+                                    );
+                                });
                             });
-                            response.on('end', () => {
-                                var data = JSON.parse(body_2);
-                                // ====== get today day ====== //
-                                var todayIs = getCurrentDay()
-                                // ====== accessing JSON key ====== //
-                                var startTime = data[strLocation_checkTime][todayIs].Open;
-                                var endTime = data[strLocation_checkTime][todayIs].Close;
-                                // alexa output
-                                context.succeed(
-                                    generateResponse(
-                                        buildSpeechletResponse(`${strLocation_checkTime} is open at ${startTime} and close at ${endTime} today`, true), {}
-                                    )
-                                );
-                            });
-                        });
+                        } else {
+                            // alexa output
+                            context.succeed(
+                                generateResponse(
+                                    buildSpeechletResponse(`The location is invalid, please say it again`, false), {}
+                                )
+                            );
+                        }
                         break;
                     default:
                         throw "Invalid intent";
@@ -286,7 +310,7 @@ function getDiningHall_fromUser(value) {
     var place_pool = {
         "holloway": ["holloway", "holloway commons", "hoco"],
         "philbrook": ["philbrook", "philly"],
-        "stillings": ["stilings", "stilling"]
+        "stillings": ["stilings", "stilling", "stillings"]
     };
     // filter
     var speechPlace;
@@ -318,5 +342,5 @@ function getCurrentDay() {
     weekday[5] = "Friday";
     weekday[6] = "Saturday";
     var todayIs = weekday[now.getDay()];
-    return todayIs
+    return todayIs;
 }
