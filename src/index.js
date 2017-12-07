@@ -122,28 +122,18 @@ exports.handler = (event, context) => {
                         break;
                     case "checkOpen":
                         // ====== get dining hall ====== //
-                        var rawPlace = event.request.intent.slots.dining_hall.value;
-                        var speechPlace = getDiningHall_fromUser(rawPlace)[0];
-                        var operation_time = getDiningHall_fromUser(rawPlace)[1];
-                        
+                        var rawPlace_checkOpen = event.request.intent.slots.dining_hall.value;
+                        var speechPlace = getDiningHall_fromUser(rawPlace_checkOpen)[0];
+                        var strLocation_checkOpen = getDiningHall_fromUser(rawPlace_checkOpen)[1];
                         // ====== get today day ====== //
-                        var now = new Date();
-                        var weekday = new Array(7);
-                        weekday[0] = "Sunday";
-                        weekday[1] = "Monday";
-                        weekday[2] = "Tuesday";
-                        weekday[3] = "Wednesday";
-                        weekday[4] = "Thursday";
-                        weekday[5] = "Friday";
-                        weekday[6] = "Saturday";
-                        var todayIs = weekday[now.getDay()];
+                        var todayIs = getCurrentDay()
                         // ====== get current EST time ====== //
                         var myTime = getDateWithUTCOffset(-5);
                         //////////////////////////////////////
                         // ****** endpoint services ****** //
                         // ====== get data from REST API AWS S3 ====== //
                         var body = "";
-                        var s3_speechPlace_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${operation_time}.json`;
+                        var s3_speechPlace_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${strLocation_checkOpen}.json`;
                         https.get(s3_speechPlace_endpoint, (response) => {
                             response.on('data', (chunk) => {
                                 body += chunk;
@@ -151,8 +141,8 @@ exports.handler = (event, context) => {
                             response.on('end', () => {
                                 var data = JSON.parse(body);
                                 // ====== accessing JSON key ====== //
-                                var startTime = data[operation_time][todayIs].Open;
-                                var endTime = data[operation_time][todayIs].Close;
+                                var startTime = data[strLocation_checkOpen][todayIs].Open;
+                                var endTime = data[strLocation_checkOpen][todayIs].Close;
                                 // ====== convert RAW JSON value to date Obj ====== //
                                 var startDate = dateObj(startTime);
                                 var endDate = dateObj(endTime);
@@ -174,12 +164,36 @@ exports.handler = (event, context) => {
                             });
                         });
                         break;
-                    /* case "checkTime":
+                    case "checkTime":
                         // ====== get dining hall ====== //
-                        // get endpoint
-                        // no logic needed
-                        // tell the users open and close time for a specific dining hall
-                        break; */
+                        var rawPlace_checkTime = event.request.intent.slots.dining_hall.value;
+                        var strLocation_checkTime = getDiningHall_fromUser(rawPlace_checkTime)[1];
+
+                        //////////////////////////////////////
+                        // ****** endpoint services ****** //
+                        // ====== get data from REST API AWS S3 ====== //
+                        var body_2 = "";
+                        var s3_operationTime_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/${strLocation_checkTime}.json`;
+                        https.get(s3_operationTime_endpoint, (response) => {
+                            response.on('data', (chunk) => {
+                                body_2 += chunk;
+                            });
+                            response.on('end', () => {
+                                var data = JSON.parse(body_2);
+                                // ====== get today day ====== //
+                                var todayIs = getCurrentDay()
+                                // ====== accessing JSON key ====== //
+                                var startTime = data[strLocation_checkTime][todayIs].Open;
+                                var endTime = data[strLocation_checkTime][todayIs].Close;
+                                // alexa output
+                                context.succeed(
+                                    generateResponse(
+                                        buildSpeechletResponse(`${strLocation_checkTime} is open at ${startTime} and close at ${endTime} today`, true), {}
+                                    )
+                                );
+                            });
+                        });
+                        break;
                     default:
                         throw "Invalid intent";
                 }
@@ -277,17 +291,32 @@ function getDiningHall_fromUser(value) {
     // filter
     var speechPlace;
     var operation_time;
-    if (place_pool.holloway.indexOf(place) >=0) {
+    if (place_pool.holloway.indexOf(place) >= 0) {
         speechPlace = "holloway common dining hall"
         operation_time = "hoco"
-    } 
-    if (place_pool.philbrook.indexOf(place) >=0) {
+    }
+    if (place_pool.philbrook.indexOf(place) >= 0) {
         speechPlace = "philbrook dining hall"
         operation_time = "philly"
     }
-    if (place_pool.stillings.indexOf(place) >=0 ) {
+    if (place_pool.stillings.indexOf(place) >= 0) {
         speechPlace = "stillings dining hall"
         operation_time = "stillings"
     }
     return [speechPlace, operation_time]
+}
+// function to get today day
+function getCurrentDay() {
+    // ====== get today day ====== //
+    var now = new Date();
+    var weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+    var todayIs = weekday[now.getDay()];
+    return todayIs
 }

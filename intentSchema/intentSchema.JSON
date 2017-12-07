@@ -10,6 +10,13 @@
             }]
         },
         {
+            "intent": "checkTime",
+            "slots": [{
+                "name": "dining_hall",
+                "type": "places"
+            }]
+        },
+        {
             "intent": "checkFood",
             "slots": [{
                 "name": "dining_hall",
