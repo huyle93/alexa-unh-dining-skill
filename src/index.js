@@ -7,6 +7,11 @@ ES6
 none semicolons needed
 */
 
+/*
+debug
+https://alexa.amazon.com/spa/index.html#cards
+*/
+
 // ======================== Require from Alexa npm ======================= //
 const Alexa = require('alexa-sdk');
 var https = require('https');
@@ -85,6 +90,9 @@ exports.handler = (event, context) => {
                         );
                         break;
                     case "checkFood":
+                        // alexa, ask food hunter do we have shrimp scampi today
+                        // alexa: Yey, we do have shrimp scampi today at philly for lunch and dinner. Enjoy!
+
                         var s3_menu_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/menu_structure.json`
                         var foodname_slot = event.request.intent.slots.Food.value;
                         if (foodname_slot) {
@@ -99,7 +107,7 @@ exports.handler = (event, context) => {
                                     if (foodname_endpoint.indexOf(foodname_slot) >= 0) {
                                         context.succeed(
                                             generateResponse(
-                                                buildSpeechletResponse(`There is ${foodname_slot} today`, true), {}
+                                                buildSpeechletResponse(`There is ${foodname_slot} today in Holloway Commons`, true), {}
                                             )
                                         )
                                     } else {
@@ -316,16 +324,16 @@ function getDiningHall_fromUser(value) {
     var speechPlace;
     var operation_time;
     if (place_pool.holloway.indexOf(place) >= 0) {
-        speechPlace = "holloway common dining hall"
-        operation_time = "hoco"
+        speechPlace = "holloway common dining hall";
+        operation_time = "hoco";
     }
     if (place_pool.philbrook.indexOf(place) >= 0) {
-        speechPlace = "philbrook dining hall"
-        operation_time = "philly"
+        speechPlace = "philbrook dining hall";
+        operation_time = "philly";
     }
     if (place_pool.stillings.indexOf(place) >= 0) {
-        speechPlace = "stillings dining hall"
-        operation_time = "stillings"
+        speechPlace = "stillings dining hall";
+        operation_time = "stillings";
     }
     return [speechPlace, operation_time]
 }
@@ -343,4 +351,28 @@ function getCurrentDay() {
     weekday[6] = "Saturday";
     var todayIs = weekday[now.getDay()];
     return todayIs;
+}
+// function to search regex
+Array.prototype.findReg = function (match) {
+    var reg = new RegExp(match);
+
+    return this.filter(function (item) {
+        return typeof item == 'string' && item.match(reg);
+    });
+};
+
+// function get food time
+/* take 2 parameters, return array of meal time */
+function getFoodTime(foodname_slot, array_item) {
+    var hasFoodOn = [];
+    if (array_item.Breakfast.findReg(foodname_slot) == foodname_slot) {
+        hasFoodOn.push(Object.keys(array_item)[0]);
+    }
+    if (array_item.Lunch.findReg(foodname_slot) == foodname_slot) {
+        hasFoodOn.push(Object.keys(array_item)[1]);
+    }
+    if (array_item.Dinner.findReg(foodname_slot) == foodname_slot) {
+        hasFoodOn.push(Object.keys(array_item)[2]);
+    }
+    return hasFoodOn;
 }
