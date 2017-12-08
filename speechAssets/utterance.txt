@@ -1,5 +1,10 @@
 demoCheckOpen which dining hall is currently open
+demoCheckOpen what dining hall is currently open
+demoCheckOpen current opening
+demoCheckOpen current opening dining hall
+demoCheckOpen currently open
 demoCheckOpen where can I get food now
+quickAsk quick ask
 checkOpen is {dining_hall} open now
 checkOpen is {dining_hall} open
 checkOpen is {dining_hall} currently open

@@ -31,7 +31,7 @@ exports.handler = (event, context) => {
                 console.log(`LAUNCH REQUEST`)
                 context.succeed(
                     generateResponse(
-                        buildSpeechletResponse('Welcome to UNH Food Hunter, how can I help you? You can ask for a specific dining hall, or, a specific food.', false), {}
+                        buildSpeechletResponse('Welcome to UNH Food Hunter! You can ask me for current opening dining hall, check a specific dining hall operating hours, or find a specific food by providing the food name and dining hall name', false), {}
                     )
                 );
                 break;
@@ -118,6 +118,11 @@ exports.handler = (event, context) => {
                         var confirmationArray = ["hoco", "holloway", "holloway common", "philly", "philbrook", "stillings"]
                         // ====== get dining hall ====== //
                         var rawPlace_checkFood = event.request.intent.slots.dining_hall.value;
+                        if (rawPlace_checkFood === undefined) {
+                            rawPlace_checkFood = "hoco" // working now by replacing undefined with hoco, better way is to loop through all object and return object that has specific food and time.
+                        } else {
+                            rawPlace_checkFood.toLowerCase()
+                        }
                         var dining_hall_for_menu = getDiningHall_fromUser(rawPlace_checkFood)[1];
                         var dining_hall_speech = getDiningHall_fromUser(rawPlace_checkFood)[0];
                         // endpoint for demo

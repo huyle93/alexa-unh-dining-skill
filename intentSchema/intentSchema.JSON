@@ -3,6 +3,9 @@
             "intent": "didNotUnderstand"
         },
         {
+            "intent": "quickAsk"
+        },
+        {
             "intent": "checkOpen",
             "slots": [{
                 "name": "dining_hall",
