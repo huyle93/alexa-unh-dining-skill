@@ -80,61 +80,84 @@ exports.handler = (event, context) => {
                             )
                         );
                         break;
-
-                        // ======================== Custom Intents ======================= //
-                    case "devTest":
+                    case "AMAZON.YesIntent":
                         context.succeed(
                             generateResponse(
-                                buildSpeechletResponse(`I am here `, false), {}
+                                buildSpeechletResponse(`Please tell me the foods name!`, false), {}
+                            )
+                        );
+                        break;
+                    case "AMAZON.NoIntent":
+                        context.succeed(
+                            generateResponse(
+                                buildSpeechletResponse(`Alright, see ya`, true), {}
+                            )
+                        );
+
+                        // ======================== Custom Intents ======================= //
+                    case "demoCheckOpen":
+                        context.succeed(
+                            generateResponse(
+                                buildSpeechletResponse(`All three dining halls, Hoco, Philly and Stillings are currently open. Do you want to find a specific food?`, false), {}
+                            )
+                        );
+                        break;
+                    case "didNotUnderstand":
+                        context.succeed(
+                            generateResponse(
+                                buildSpeechletResponse(`Woo, I did not hear it clear. Can you say it again? `, false), {}
                             )
                         );
                         break;
                     case "checkFood":
-                        // alexa, ask food hunter do we have shrimp scampi today
-                        // alexa: Yey, we do have shrimp scampi today at philly for lunch and dinner. Enjoy!
-
-                        var s3_menu_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/menu_structure.json`
-                        var foodname_slot = event.request.intent.slots.Food.value;
-                        if (foodname_slot) {
-                            var menu_body = "";
-                            https.get(s3_menu_endpoint, (response) => {
-                                response.on('data', (chunk) => {
-                                    menu_body += chunk;
-                                });
-                                response.on('end', () => {
-                                    var data = JSON.parse(menu_body);
-                                    var foodname_endpoint = data.Philly.Breakfast;
-                                    if (foodname_endpoint.indexOf(foodname_slot) >= 0) {
-                                        context.succeed(
-                                            generateResponse(
-                                                buildSpeechletResponse(`There is ${foodname_slot} today in Holloway Commons`, true), {}
-                                            )
-                                        )
-                                    } else {
-                                        context.succeed(
-                                            generateResponse(
-                                                buildSpeechletResponse(`Sorry. There is no ${foodname_slot} today`, true), {}
-                                            )
-                                        )
-                                    }
-                                })
-                            })
-                        } else {
-                            context.succeed(
-                                generateResponse(
-                                    buildSpeechletResponse(`Sorry. I could not hear the food name clear, please say it again, or, say bye to exit`, false), {}
-                                )
-                            )
-                        }
-
-                        break;
-                    case "checkOpen":
+                        // alexa, ask food hunter do we have {fresh clam chowder} today
+                        // alexa: Yey, we do have {fresh clam chowder} today at philly for lunch and dinner. Enjoy!
+                        var foodname_slot = event.request.intent.slots.Food.value.toLowerCase(); // fresh clam chowder
+                        var menu_date = event.request.intent.slots.Date.value;
                         // confirmation //
                         var confirmationArray = ["hoco", "holloway", "holloway common", "philly", "philbrook", "stillings"]
                         // ====== get dining hall ====== //
+                        var rawPlace_checkFood = event.request.intent.slots.dining_hall.value;
+                        var dining_hall_for_menu = getDiningHall_fromUser(rawPlace_checkFood)[1];
+                        var dining_hall_speech = getDiningHall_fromUser(rawPlace_checkFood)[0];
+                        // endpoint for demo
+                        var s3_menu_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/api-request/${menu_date}.json` //yyyy-mm-dd
+                        // logic
+                        var menu_body = "";
+                        if (menu_date === undefined || s3_menu_endpoint === null) {
+                            s3_menu_endpoint = `https://s3.amazonaws.com/alexa-unh-dining/data/api-request/2017-12-08.json`
+                        }
+                        https.get(s3_menu_endpoint, (response) => {
+                            response.on('data', (chunk) => {
+                                menu_body += chunk;
+                            });
+                            response.on('end', () => {
+                                var data = JSON.parse(menu_body);
+                                var foodname_endpoint = data[dining_hall_for_menu];
+                                var meal = getFoodTime(foodname_slot, foodname_endpoint)
+                                if (meal == "") {
+                                    context.succeed(
+                                        generateResponse(
+                                            buildSpeechletResponse(`Oh No, we dont have ${foodname_slot} today. Do you want to find another food?`, false), {}
+                                        )
+                                    );
+                                } else {
+                                    context.succeed(
+                                        generateResponse(
+                                            buildSpeechletResponse(`Yes. There is ${foodname_slot} in ${dining_hall_speech}, at ${meal}. I hope you enjoy it`, true), {}
+                                        )
+                                    );
+                                }
+                            });
+                        });
+                        break;
+                    case "checkOpen":
+                        // confirmation //
+                        var confirmationArray_1 = ["hoco", "holloway", "holloway common", "philly", "philbrook", "stillings"]
+                        // ====== get dining hall ====== //
                         var rawPlace_checkOpen = event.request.intent.slots.dining_hall.value;
 
-                        if (confirmationArray.indexOf(rawPlace_checkOpen.toLowerCase()) >= 0) {
+                        if (confirmationArray_1.indexOf(rawPlace_checkOpen.toLowerCase()) >= 0) {
                             var speechPlace = getDiningHall_fromUser(rawPlace_checkOpen)[0];
                             var strLocation_checkOpen = getDiningHall_fromUser(rawPlace_checkOpen)[1];
                             // ====== get today day ====== //
@@ -190,7 +213,7 @@ exports.handler = (event, context) => {
                         var confirmationArray_2 = ["hoco", "holloway", "holloway common", "philly", "philbrook", "stillings"]
                         // ====== get dining hall ====== //
                         var rawPlace_checkTime = event.request.intent.slots.dining_hall.value;
-
+                        var date_value_checkTime = event.request.intent.slots.Date.value;
                         if (confirmationArray_2.indexOf(rawPlace_checkTime.toLowerCase()) >= 0) {
                             //////////////////////////////////////
                             var strLocation_checkTime = getDiningHall_fromUser(rawPlace_checkTime)[1];
@@ -210,11 +233,19 @@ exports.handler = (event, context) => {
                                     var startTime = data[strLocation_checkTime][todayIs].Open;
                                     var endTime = data[strLocation_checkTime][todayIs].Close;
                                     // alexa output
-                                    context.succeed(
-                                        generateResponse(
-                                            buildSpeechletResponse(`${strLocation_checkTime} is open at ${startTime} and close at ${endTime} today`, true), {}
-                                        )
-                                    );
+                                    if (date_value_checkTime == "2017-12-09") {
+                                        context.succeed(
+                                            generateResponse(
+                                                buildSpeechletResponse(`${strLocation_checkTime} is open at ${startTime} and close at ${endTime} tomorrow`, true), {}
+                                            )
+                                        );
+                                    } else {
+                                        context.succeed(
+                                            generateResponse(
+                                                buildSpeechletResponse(`${strLocation_checkTime} is open at ${startTime} and close at ${endTime} today`, true), {}
+                                            )
+                                        );
+                                    }
                                 });
                             });
                         } else {
@@ -360,19 +391,27 @@ Array.prototype.findReg = function (match) {
         return typeof item == 'string' && item.match(reg);
     });
 };
-
+// lowerCase array of foods
+function toLowerCaseArray(takeArray) {
+    var sorted = [];
+    for (var i = 0; i < takeArray.length; i++) {
+        sorted.push(takeArray[i].toLowerCase());
+    }
+    return sorted.sort();
+}
 // function get food time
 /* take 2 parameters, return array of meal time */
-function getFoodTime(foodname_slot, array_item) {
+function getFoodTime(foodname_slot, takeObject) {
     var hasFoodOn = [];
-    if (array_item.Breakfast.findReg(foodname_slot) == foodname_slot) {
-        hasFoodOn.push(Object.keys(array_item)[0]);
+    foodname_slot.toLowerCase();
+    if (toLowerCaseArray(takeObject.Breakfast).findReg(foodname_slot) == foodname_slot) {
+        hasFoodOn.push(Object.keys(takeObject)[0]);
     }
-    if (array_item.Lunch.findReg(foodname_slot) == foodname_slot) {
-        hasFoodOn.push(Object.keys(array_item)[1]);
+    if (toLowerCaseArray(takeObject.Lunch).findReg(foodname_slot) == foodname_slot) {
+        hasFoodOn.push(Object.keys(takeObject)[1]);
     }
-    if (array_item.Dinner.findReg(foodname_slot) == foodname_slot) {
-        hasFoodOn.push(Object.keys(array_item)[2]);
+    if (toLowerCaseArray(takeObject.Dinner).findReg(foodname_slot) == foodname_slot) {
+        hasFoodOn.push(Object.keys(takeObject)[2]);
     }
     return hasFoodOn;
 }

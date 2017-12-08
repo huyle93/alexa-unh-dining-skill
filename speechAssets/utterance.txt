@@ -1,0 +1,81 @@
+demoCheckOpen which dining hall is currently open
+demoCheckOpen where can I get food now
+checkOpen is {dining_hall} open now
+checkOpen is {dining_hall} open
+checkOpen is {dining_hall} currently open
+checkOpen does {dining_hall} open now
+checkOpen does {dining_hall} open
+checkOpen does {dining_hall} currently open
+checkOpen {dining_hall} open
+checkOpen {dining_hall} close yet
+checkTime what time does {dining_hall} close
+checkTime what time does {dining_hall} open
+checkTime what time does {dining_hall} close {Date}
+checkTime what time does {dining_hall} open {Date}
+checkTime what time does {dining_hall} close {Date}
+checkTime what time does {dining_hall} open {Date}
+checkTime does {dining_hall} has late night
+checkTime does {dining_hall} has late night {Date}
+checkTime does {dining_hall} has late night {Date}
+checkFood {Food}
+checkFood do we have {Food}
+checkFood do we have {Food} {Date}
+checkFood do we have {Food} {Date}
+checkFood do we have {Food} {Date}
+checkFood do we have {Food} in {dining_hall} {Date}
+checkFood do we have {Food} in {dining_hall}
+checkFood is there {Food}
+checkFood is there {Food} {Date}
+checkFood is there {Food} {Date}
+checkFood is there {Food} {Date}
+checkFood where can i find {Food}
+checkFood where can i find {Food} {Date}
+checkFood where can i find {Food} {Date}
+checkFood where can i find {Food} {Date}
+didNotUnderstand gibberish
+didNotUnderstand blah
+didNotUnderstand blah blah blah
+didNotUnderstand speechless
+didNotUnderstand what
+didNotUnderstand who
+didNotUnderstand whom
+didNotUnderstand when
+didNotUnderstand where
+didNotUnderstand which
+didNotUnderstand z
+didNotUnderstand zz
+didNotUnderstand hmm
+didNotUnderstand oops
+AMAZON.YesIntent Yes 
+AMAZON.NoIntent No
+AMAZON.HelpIntent Tell me
+AMAZON.HelpIntent I want to know
+AMAZON.HelpIntent What should i ask
+AMAZON.HelpIntent How this works
+AMAZON.HelpIntent What to ask
+AMAZON.HelpIntent What to say
+AMAZON.HelpIntent how to ask
+AMAZON.HelpIntent how this works
+AMAZON.HelpIntent help me
+AMAZON.HelpIntent i need help
+AMAZON.HelpIntent i am not sure
+AMAZON.HelpIntent not sure
+AMAZON.HelpIntent not sure what to do
+AMAZON.StopIntent No
+AMAZON.StopIntent Bye
+AMAZON.StopIntent Bye Now
+AMAZON.StopIntent I am good
+AMAZON.StopIntent Ok thanks
+AMAZON.StopIntent Nope
+AMAZON.StopIntent Ok Bye
+AMAZON.StopIntent Okay Bye
+AMAZON.StopIntent exit
+AMAZON.StopIntent that is it
+AMAZON.StopIntent that's it
+AMAZON.StopIntent Alexa Stop
+AMAZON.StopIntent Alexa Bye
+AMAZON.StopIntent Alexa Bye Now
+AMAZON.StopIntent Alexa Exit
+AMAZON.PauseIntent Pause
+AMAZON.PauseIntent Wait
+AMAZON.PauseIntent Hold on

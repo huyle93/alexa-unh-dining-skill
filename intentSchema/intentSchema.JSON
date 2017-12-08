@@ -14,6 +14,9 @@
             "slots": [{
                 "name": "dining_hall",
                 "type": "places"
+            },{
+                    "name": "Date",
+                    "type": "AMAZON.DATE"
             }]
         },
         {
@@ -24,7 +27,13 @@
             },{
                 "name": "Food",
                 "type": "AMAZON.Food"
+            },{
+                "name": "Date",
+                "type": "AMAZON.DATE"
             }]
+        },
+        {
+            "intent": "demoCheckOpen"
         },
         {
             "intent": "AMAZON.PauseIntent"
@@ -40,6 +49,12 @@
         },
         {
             "intent": "AMAZON.CancelIntent"
+        },
+        {
+            "intent": "AMAZON.YesIntent"
+        },
+        {
+            "intent": "AMAZON.NoIntent"
         }
     ]
 }

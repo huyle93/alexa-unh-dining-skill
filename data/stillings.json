@@ -18,7 +18,11 @@
         },
         "Friday": {
             "Open": "7:15 AM",
-            "Close": "8:00 PM"
+            "Close": "2:00 PM"
+        },
+        "Saturday": {
+            "Open": "7:15 AM",
+            "Close": "7:16 PM"
         },
         "Sunday": {
             "Open": "12:00 PM",
