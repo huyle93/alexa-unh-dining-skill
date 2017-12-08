@@ -1,0 +1,23 @@
+{
+    "hoco": {
+        "Breakfast": [],        
+        "Lunch": ["Assorted Danish", "Assorted Muffins", "Breakfast Kielbasa", "French Toast Sticks", "Hard Cooked Eggs", "Holloway Omelet Bar", "Hot Oatmeal", "Lyonnaise Potatoes", "Scrambled Eggs", "Steel Cut Oatmeal", "Waffle Bar", "Chef's Choice Soup", "Chicken Noodle Soup", "Vermont Cheddar & Ale Soup", "Holloway Salad Bar", "Yogurt Bar", "Deli Bar", "Cajun Grilled Chicken", "Cheeseburger (no roll)", "Fryless Shoestring Fries", "Grilled Beef Frankfurter", "Hamburger (no roll)", "Oven Fried Chicken", "Turkey Burger (no roll)", "Veggie Burger (no roll)", "Buffalo Cauliflower Pizza", "Cheese Pizza", "Cheesy Bread", "Pepperoni Pizza", "Assorted Dessert Bars", "Chocolate Chip Cookies", "Oatmeal Raisin Cookie", "Carrot & Ginger Soup", "Steamed Broccoli Florets", "Vegan Raspberry Pancakes", "Vegan Sesame Nuggets", "Chef's Choice", "Fried Pub Pollock", "Grilled Chicken Del Rio", "House-made Alfredo Sauce", "Marinara Sauce", "Pasta Shells", "Sicilian Chicken Pesto Sauce", "Steamed Broccoli Florets", "Thai Coconut Lo Mein", "Whole Wheat Pasta"],
+        "Dinner": ["Chef's Choice Soup", "Chicken Noodle Soup", "Vermont Cheddar & Ale Soup", "Holloway Salad Bar", "Yogurt Bar", "Ice Cream Smorgasbord", "Cajun Grilled Chicken", "Cheeseburger (no roll)", "Fryless Shoestring Fries", "Grilled Beef Frankfurter", "Hamburger (no roll)", "Oven Fried Chicken", "Turkey Burger (no roll)", "Veggie Burger (no roll)", "Buffalo Cauliflower Pizza", "Cheese Pizza", "Cheesy Bread", "Pepperoni Pizza", "Brown Rice", "Hot & Spicy Zucchini", "Jasmine Rice", "Pork Fried Rice", "Stir Fry Bar", "Ice Cream Smorgasbord", "Carrot & Ginger Soup", "Grilled Portabello Mushrooms", "Herbed Quinoa", "Tofu Ravioli", "Baked Southwestern Chicken", "Chef's Choice", "House-made Alfredo Sauce", "Lemon Herb Salmon", "Marinara Sauce", "Parslied Rice", "Pasta Shells", "Seasoned Cut Corn", "Sicilian Chicken Pesto Sauce", "Steamed Broccoli Florets", "Stuffed Shells", "Whole Wheat Pasta"]
+
+
+    },
+    "philly": {
+        "Breakfast": [],        
+        "Lunch": ["Assorted Breakfast Pastries", "Congee Bar", "Corned Beef Hash", "French Toast Sticks", "Granola Berry Trifle", "Greek Egg White Scramble", "Hard Cooked Eggs", "Hot Oatmeal", "Oatmeal Bar", "Scrambled Eggs", "Steel Cut Oatmeal", "Sweet Potato Tots", "Black Bean Soup", "Carrot & Ginger Soup", "Chicken Noodle Soup", "Corn Chowder", "Philbrook Salad Bar", "Deli Bar", "Toscano Sandwich", "Cheeseburger (no roll)", "Chicken Nuggets", "Curried Chickpeas", "Grilled Beef Frankfurter", "Grilled Chicken", "Hamburger (no roll)", "Home Style Cut Fries", "Seasoned Cut Corn", "Turkey Burger (no roll)", "Veggie Burger (no roll)", "Cheese Pizza", "Cheesy Bread", "Pepperoni Pizza", "Spinach Cheese Stromboli", "Chef's Choice", "House-made Alfredo Sauce", "Marinara Sauce", "Penne Rigate", "Whole Wheat Pasta", "Asian Chicken Salad", "Fried Mozzarella Sticks", "Seasoned Cut Corn", "Tuscan Pasta Saute", "Choc Cran Oatmeal Cookie", "Chocolate Chip Cookies", "M&M; Brownies", "All Day Breakfast Bar", "Waffle Bar", "Yogurt Parfait Bar", "Brown Rice", "Jasmine Rice", "Lo Mein Noodles", "Mongolian Grill", "Noodle Bowl Bar", "Tofu Provencal", "Fire Roasted Eggplant", "Lemon Herb Turkey", "Mesclun Honey Mustard Salad", "Roasted Potato Medley", "Tomato Garden Veg Soup", "Veg 4 Bean Chili", "Vegan Butternut Salad"],
+        "Dinner": ["Black Bean Soup", "Carrot & Ginger Soup", "Chicken Noodle Soup", "Corn Chowder", "Philbrook Salad Bar", "Deli Bar", "Toscano Sandwich", "Chicken Fajita Bar", "Cheese Pizza", "Cheesy Bread", "Pepperoni Pizza", "Spinach Cheese Stromboli", "Chef's Choice", "House-made Alfredo Sauce", "Marinara Sauce", "Penne Rigate", "Whole Wheat Pasta", "Chicken Shawarma", "Fresh Fried Calamari", "Garlic Linguini", "Herbed Couscous", "Marinara Sauce", "Peas", "Seasoned Cut Corn", "Decorate Your Own Cupcakes", "All Day Breakfast Bar", "Waffle Bar", "Yogurt Parfait Bar", "Baked Sweet Potato", "Chef's Choice Vegetables", "Herbed Rotisserie Turkey", "Brown Rice", "Jasmine Rice", "Lo Mein Noodles", "Mongolian Grill", "Noodle Bowl Bar", "Vegan Tortellini", "Chicken Balsamico", "Mesclun Honey Mustard Salad", "Rice Pasta, Garlic & Olives", "Sauteed Spinach", "Tomato Garden Veg Soup", "Veg 4 Bean Chili", "Vegan Butternut Salad"]
+
+
+    },
+    "stillings": {
+        "Breakfast": [],
+        "Lunch": [],
+        "Dinner": []
+        
+    }
+
+}
