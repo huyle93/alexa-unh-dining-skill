@@ -39,7 +39,7 @@ url = "http://foodpro.unh.edu/shortmenu.asp?sName=University+Of+New+Hampshire+Ho
 
 #for url in url_list:
 dictionary = {}
-response = requests.get(url)
+response = requests.get(url, headers={'User-Agent': 'Chrome/60.0.3112.113'})
 soup = BeautifulSoup(response.content, "html.parser")
 table = soup.find("td")
 title_list = []
@@ -47,8 +47,8 @@ menu_list = []
 recipes_list = []
 meal_list = []
 cat_list = []
-    
-    
+
+
 for date in table.find_all("span", {"class":"shortmenutitledate"}):
     title_list.append(date.get_text())
 #    print(date.text)
@@ -64,12 +64,12 @@ for date in table.find_all("span", {"class":"shortmenutitledate"}):
                 for cat in table.find_all("div", {"class":"shortmenucats"}):
                     cat_list.append(cat.get_text())
                     #print(cat.text)
-                
 
-            
-         
+
+
+
 dictionary = {"Date" : title_list, "Location" : menu_list,
-              "Food" : recipes_list} 
+              "Food" : recipes_list}
 for d, l in dictionary.items():
     print(d, l)
 #print(dictionary)
@@ -77,51 +77,51 @@ for d, l in dictionary.items():
 
 
 
-            
 
-            
-            
-            
-            
+
+
+
+
+
 #                for i in list:
 #                    text = i.get_text()
-#                    print(text)                             
+#                    print(text)
 
 
 
 # =================== Dump JSON =========================
 with open("Holloway.json", "w") as f:
      json.dump(dictionary, f)
-    
 
-    
-    
- 
-        
-    
- 
-            
-        
- 
-    
-            
-                
-                
-            
-            
-            
-            
-            
-           
-            
-       
-      
-       
-       
-       
-      
 
-    
-        
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
